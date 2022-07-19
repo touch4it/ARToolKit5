@@ -322,41 +322,6 @@ int kpmSetRefDataSet( KpmHandle *kpmHandle, KpmRefDataSet *refDataSet, std::func
     return 0;
 }
 
-int kpmSetRefDataSetFile( KpmHandle *kpmHandle, const char *filename, const char *ext )
-{
-    KpmRefDataSet   *refDataSet;
-    
-    if (!kpmHandle || !filename) {
-        ARLOGe("kpmSetRefDataSetFile(): NULL kpmHandle/filename.\n");
-        return -1;
-    }
-    
-    if( kpmLoadRefDataSet(filename, ext, &refDataSet) < 0 ) return -1;
-    if( kpmSetRefDataSet(kpmHandle, refDataSet) < 0 ) {
-        kpmDeleteRefDataSet(&refDataSet);
-        return -1;
-    }
-    kpmDeleteRefDataSet(&refDataSet);
-    
-    return 0;
-}
-
-int kpmSetRefDataSetFileOld( KpmHandle *kpmHandle, const char *filename, const char *ext )
-{
-    KpmRefDataSet   *refDataSet;
-    
-    if( kpmHandle == NULL )  return -1;
-    
-    if( kpmLoadRefDataSetOld(filename, ext, &refDataSet) < 0 ) return -1;
-    if( kpmSetRefDataSet(kpmHandle, refDataSet) < 0 ) {
-        kpmDeleteRefDataSet(&refDataSet);
-        return -1;
-    }
-    kpmDeleteRefDataSet(&refDataSet);
-    
-    return 0;
-}
-
 int kpmSetMatchingSkipPage( KpmHandle *kpmHandle, int skipPages[], int num )
 {
     int    i, j;
