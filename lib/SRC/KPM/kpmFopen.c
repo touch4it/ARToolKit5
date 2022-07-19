@@ -37,7 +37,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <KPM/kpm.h>
 #include "kpmFopen.h"
 #ifdef _WIN32
 #  define MAXPATHLEN MAX_PATH

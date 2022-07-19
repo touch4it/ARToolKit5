@@ -39,7 +39,7 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
-
+#include <functional>
 #include <KPM/kpm.h>
 #include "kpmPrivate.h"
 #if BINARY_FEATURE
@@ -170,7 +170,7 @@ int kpmLoadImageDb(KpmHandle *kpmHandle, const char *filename)
     return 1;
 }
         
-int kpmSetRefDataSet( KpmHandle *kpmHandle, KpmRefDataSet *refDataSet )
+int kpmSetRefDataSet( KpmHandle *kpmHandle, KpmRefDataSet *refDataSet, std::function<void(int,int)> progress_callback)
 {
 #if !BINARY_FEATURE
     CAnnMatch2         *ann2;
@@ -216,6 +216,14 @@ int kpmSetRefDataSet( KpmHandle *kpmHandle, KpmRefDataSet *refDataSet )
     }
     if( refDataSet->pageNum != 0 ) {
         arMalloc( kpmHandle->refDataSet.pageInfo, KpmPageInfo, refDataSet->pageNum );
+
+        int max_count = 0;
+        int counter = 1;
+
+        for( i = 0; i < refDataSet->pageNum; i++ ) {
+            max_count += max_count + refDataSet->pageInfo[i].imageNum;
+        }
+
         for( i = 0; i < refDataSet->pageNum; i++ ) {
             kpmHandle->refDataSet.pageInfo[i].pageNo = refDataSet->pageInfo[i].pageNo;
             kpmHandle->refDataSet.pageInfo[i].imageNum = refDataSet->pageInfo[i].imageNum;
@@ -223,10 +231,14 @@ int kpmSetRefDataSet( KpmHandle *kpmHandle, KpmRefDataSet *refDataSet )
                 arMalloc( kpmHandle->refDataSet.pageInfo[i].imageInfo, KpmImageInfo, refDataSet->pageInfo[i].imageNum );
                 for( j = 0; j < refDataSet->pageInfo[i].imageNum; j++ ) {
                     kpmHandle->refDataSet.pageInfo[i].imageInfo[j] = refDataSet->pageInfo[i].imageInfo[j];
+                    progress_callback(max_count, counter);
+                    counter++;
                 }
             }
             else {
                 refDataSet->pageInfo[i].imageInfo = NULL;
+                progress_callback(max_count, counter);
+                counter++;
             }
         }
     }
@@ -271,6 +283,13 @@ int kpmSetRefDataSet( KpmHandle *kpmHandle, KpmRefDataSet *refDataSet )
         featureVector.num = kpmHandle->refDataSet.num;
         
         int db_id = 0;
+
+        int max_count = 0;
+        int counter = 1;
+        for( i = 0; i < refDataSet->pageNum; i++ ) {
+            max_count += max_count + refDataSet->pageInfo[i].imageNum;
+        }
+
         for (int k = 0; k < kpmHandle->refDataSet.pageNum; k++) {
             for (int m = 0; m < kpmHandle->refDataSet.pageInfo[k].imageNum; m++) {
                 std::vector<vision::FeaturePoint> points;
@@ -293,6 +312,8 @@ int kpmSetRefDataSet( KpmHandle *kpmHandle, KpmRefDataSet *refDataSet )
                 }
                 ARLOGi("points-%d\n", points.size());
                kpmHandle->pageIDs[db_id] = kpmHandle->refDataSet.pageInfo[k].pageNo; kpmHandle->freakMatcher->addFreakFeaturesAndDescriptors(points,descriptors,points_3d,kpmHandle->refDataSet.pageInfo[k].imageInfo[m].width,kpmHandle->refDataSet.pageInfo[k].imageInfo[m].height,db_id++);
+               progress_callback(max_count, counter);
+               counter++;
             }
         }
     }

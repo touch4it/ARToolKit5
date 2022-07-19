@@ -36,6 +36,7 @@
 
 #ifndef KPM_FOPEN_H
 #define KPM_FOPEN_H
+#include <AR/ar.h>
 #include <stdio.h>
 
 

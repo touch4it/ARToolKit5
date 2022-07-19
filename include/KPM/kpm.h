@@ -51,6 +51,7 @@
 
 #include <AR/ar.h>
 #include <KPM/kpmType.h>
+#include <functional>
 
 #ifdef __cplusplus
 extern "C" {
@@ -236,7 +237,7 @@ int         kpmSetSurfThreadNum( KpmHandle *kpmHandle, int surfThreadNum );
     @seealso kpmCreateHandleHomography kpmCreateHandleHomography
     @seealso kpmDeleteRefDataSet kpmDeleteRefDataSet
  */
-int         kpmSetRefDataSet( KpmHandle *kpmHandle, KpmRefDataSet *refDataSet );
+int         kpmSetRefDataSet( KpmHandle *kpmHandle, KpmRefDataSet *refDataSet, std::function<void(int,int)> progress_callback);
 
 /*!
     @function
