@@ -286,6 +286,7 @@ int kpmSetRefDataSet( KpmHandle *kpmHandle, KpmRefDataSet *refDataSet, std::func
 
         int max_count = 0;
         int counter = 1;
+
         for( i = 0; i < refDataSet->pageNum; i++ ) {
             max_count += max_count + refDataSet->pageInfo[i].imageNum;
         }
@@ -311,9 +312,9 @@ int kpmSetRefDataSet( KpmHandle *kpmHandle, KpmRefDataSet *refDataSet, std::func
                     }
                 }
                 ARLOGi("points-%d\n", points.size());
-               kpmHandle->pageIDs[db_id] = kpmHandle->refDataSet.pageInfo[k].pageNo; kpmHandle->freakMatcher->addFreakFeaturesAndDescriptors(points,descriptors,points_3d,kpmHandle->refDataSet.pageInfo[k].imageInfo[m].width,kpmHandle->refDataSet.pageInfo[k].imageInfo[m].height,db_id++);
-               progress_callback(max_count, counter);
-               counter++;
+                kpmHandle->pageIDs[db_id] = kpmHandle->refDataSet.pageInfo[k].pageNo; kpmHandle->freakMatcher->addFreakFeaturesAndDescriptors(points,descriptors,points_3d,kpmHandle->refDataSet.pageInfo[k].imageInfo[m].width,kpmHandle->refDataSet.pageInfo[k].imageInfo[m].height,db_id++);
+                progress_callback(max_count, counter);
+                counter++;
             }
         }
     }
@@ -321,6 +322,41 @@ int kpmSetRefDataSet( KpmHandle *kpmHandle, KpmRefDataSet *refDataSet, std::func
     
     return 0;
 }
+
+// int kpmSetRefDataSetFile( KpmHandle *kpmHandle, const char *filename, const char *ext )
+// {
+//     KpmRefDataSet   *refDataSet;
+    
+//     if (!kpmHandle || !filename) {
+//         ARLOGe("kpmSetRefDataSetFile(): NULL kpmHandle/filename.\n");
+//         return -1;
+//     }
+    
+//     if( kpmLoadRefDataSet(filename, ext, &refDataSet) < 0 ) return -1;
+//     if( kpmSetRefDataSet(kpmHandle, refDataSet) < 0 ) {
+//         kpmDeleteRefDataSet(&refDataSet);
+//         return -1;
+//     }
+//     kpmDeleteRefDataSet(&refDataSet);
+    
+//     return 0;
+// }
+
+// int kpmSetRefDataSetFileOld( KpmHandle *kpmHandle, const char *filename, const char *ext )
+// {
+//     KpmRefDataSet   *refDataSet;
+    
+//     if( kpmHandle == NULL )  return -1;
+    
+//     if( kpmLoadRefDataSetOld(filename, ext, &refDataSet) < 0 ) return -1;
+//     if( kpmSetRefDataSet(kpmHandle, refDataSet) < 0 ) {
+//         kpmDeleteRefDataSet(&refDataSet);
+//         return -1;
+//     }
+//     kpmDeleteRefDataSet(&refDataSet);
+    
+//     return 0;
+// }
 
 int kpmSetMatchingSkipPage( KpmHandle *kpmHandle, int skipPages[], int num )
 {

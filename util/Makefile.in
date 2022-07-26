@@ -43,8 +43,6 @@ all:
 	(cd dispImageSet;     make -f Makefile)
 	(cd dispFeatureSet;   make -f Makefile)
 	(cd checkResolution;  make -f Makefile)
-	(cd calib_optical;    make -f Makefile)
-	(cd calib_stereo;     make -f Makefile)
 
 clean:
 	(cd mk_patt;          make -f Makefile clean)
@@ -55,10 +53,10 @@ clean:
 	(cd dispImageSet;     make -f Makefile clean)
 	(cd dispFeatureSet;   make -f Makefile clean)
 	(cd checkResolution;  make -f Makefile clean)
-	(cd calib_optical;    make -f Makefile clean)
-	(cd calib_stereo;     make -f Makefile clean)
 
 allclean:
+	(cd calib_camera;     make -f Makefile allclean)
+	(cd calib_stereo;     make -f Makefile allclean)
 	(cd mk_patt;          make -f Makefile allclean)
 	(cd 1394;             make -f Makefile allclean)
 	(cd check_id;         make -f Makefile allclean)
@@ -67,8 +65,6 @@ allclean:
 	(cd dispImageSet;     make -f Makefile allclean)
 	(cd dispFeatureSet;   make -f Makefile allclean)
 	(cd checkResolution;  make -f Makefile allclean)
-	(cd calib_optical;    make -f Makefile allclean)
-	(cd calib_stereo;     make -f Makefile allclean)
 	rm -f Makefile
 
 distclean:
@@ -80,7 +76,5 @@ distclean:
 	(cd dispImageSet;     make -f Makefile distclean)
 	(cd dispFeatureSet;   make -f Makefile distclean)
 	(cd checkResolution;  make -f Makefile distclean)
-	(cd calib_optical;    make -f Makefile distclean)
-	(cd calib_stereo;     make -f Makefile distclean)
 	rm -f Makefile
 
