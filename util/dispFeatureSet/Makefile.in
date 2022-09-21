@@ -55,7 +55,7 @@ $(BIN_DIR)/dispFeatureSet: dispFeatureSet.o $(OBJS)
 	${CXX} -o $(BIN_DIR)/dispFeatureSet dispFeatureSet.o $(OBJS) $(LDFLAG) $(LIBS)
 
 dispFeatureSet.o: dispFeatureSet.c $(HEADDERS)
-	${CC} -c $(CFLAG) dispFeatureSet.c
+	${CXX} -c $(CFLAG) dispFeatureSet.c
 
 
 clean:
