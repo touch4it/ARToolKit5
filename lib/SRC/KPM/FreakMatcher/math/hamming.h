@@ -32,6 +32,7 @@
 //
 //  Author(s): Chris Broaddus
 //
+#include <limits>
 
 #pragma once
 
