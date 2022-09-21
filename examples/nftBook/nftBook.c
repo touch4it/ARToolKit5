@@ -66,13 +66,10 @@
 #include <stdlib.h>					// malloc(), free()
 #include <string.h>
 #include <math.h>
-#ifdef __APPLE__
-#  include <GLUT/glut.h>
-#else
-#  include <GL/glut.h>
-#endif
+#include <GL/glut.h>
 
 #include <AR/ar.h>
+#include <AR/paramGL.h>
 #include <AR/arMulti.h>
 #include <AR/video.h>
 #include <AR/gsub_lite.h>
@@ -494,6 +491,7 @@ static int loadNFTData(void)
     }
     
     refDataSet = NULL;
+    std::function<void(int,int)> progress_callback = NULL;
     
     for (i = 0; i < markersNFTCount; i++) {
         // Load KPM data.
@@ -527,7 +525,7 @@ static int loadNFTData(void)
         surfaceSetCount++;
         if (surfaceSetCount == PAGES_MAX) break;
     }
-    if (kpmSetRefDataSet(kpmHandle, refDataSet) < 0) {
+    if (kpmSetRefDataSet(kpmHandle, refDataSet, progress_callback) < 0) {
         ARLOGe("Error: kpmSetRefDataSet\n");
         exit(-1);
     }

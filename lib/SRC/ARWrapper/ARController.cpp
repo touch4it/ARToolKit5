@@ -62,6 +62,7 @@
 
 #include <algorithm>
 #include <string>
+#include <functional>
 
 // ----------------------------------------------------------------------------------------------------
 #pragma mark  Singleton, constructor, destructor
@@ -723,6 +724,7 @@ bool ARController::loadNFTData(void)
     }
 
     KpmRefDataSet *refDataSet = NULL;
+    std::function<void(int,int)> progress_callback = NULL;
     int pageCount = 0;
 
     for (std::vector<ARMarker *>::iterator it = markers.begin(); it != markers.end(); ++it) {
@@ -757,7 +759,7 @@ bool ARController::loadNFTData(void)
             }
         }
     }
-    if (kpmSetRefDataSet(m_kpmHandle, refDataSet) < 0) {
+    if (kpmSetRefDataSet(m_kpmHandle, refDataSet, progress_callback) < 0) {
         logv(AR_LOG_LEVEL_ERROR, "ARController::loadNFTData(): Error: kpmSetRefDataSet, exit(-1)");
         exit(-1);
     }

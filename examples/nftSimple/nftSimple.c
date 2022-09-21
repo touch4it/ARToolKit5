@@ -431,6 +431,7 @@ static int loadNFTData(void)
     }
     
     refDataSet = NULL;
+    std::function<void(int,int)> progress_callback = NULL;
     
     for (i = 0; i < markersNFTCount; i++) {
         // Load KPM data.
@@ -464,7 +465,7 @@ static int loadNFTData(void)
         surfaceSetCount++;
         if (surfaceSetCount == PAGES_MAX) break;
     }
-    if (kpmSetRefDataSet(kpmHandle, refDataSet) < 0) {
+    if (kpmSetRefDataSet(kpmHandle, refDataSet, progress_callback) < 0) {
         ARLOGe("Error: kpmSetRefDataSet\n");
         exit(-1);
     }
